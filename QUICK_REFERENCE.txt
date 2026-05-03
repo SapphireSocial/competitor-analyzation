@@ -1,0 +1,66 @@
+INSTAGRAM SCRAPER - QUICK REFERENCE
+====================================
+
+TO RUN A SCRAPE
+---------------
+1. Open the folder: Desktop\IG
+2. Hold Shift, right-click in empty space, click "Open in Terminal"
+3. Paste this command (edit usernames and output name):
+
+   python instagram_scraper.py --users USERNAME1 USERNAME2 --login-user sapphiresocialsa --output results.csv
+
+   - Replace USERNAME1 USERNAME2 with Instagram handles (no @, space-separated)
+   - Change results.csv to any filename you like
+   - Keep to ~5-10 accounts per run to avoid rate limits
+
+4. Wait ~1 minute per account. Don't close the window.
+5. Open the CSV: double-click it, or type:  start results.csv
+
+
+IF SOMETHING BREAKS
+-------------------
+"pip is not recognized"
+   -> Use: python -m pip   (instead of just pip)
+
+"login required" or "checkpoint required"
+   -> Log into instagram.com in a browser, clear any prompts, then run:
+      python -m instaloader --login sapphiresocialsa
+
+"429 Too Many Requests" / rate limited
+   -> Wait 1-2 hours, try again with fewer accounts
+
+"Profile X does not exist"
+   -> Username typo, or the account was deleted
+
+Script seems stuck
+   -> Wait at least 3 minutes before assuming it's frozen
+
+
+TO RE-LOGIN (rarely needed)
+---------------------------
+python -m instaloader --login sapphiresocialsa
+
+Enter password (won't show as you type). Enter 2FA code if asked.
+Approve the login on your phone if Instagram prompts.
+
+
+EXAMPLES
+--------
+One competitor, 50 posts:
+   python instagram_scraper.py --users tejanasinmedia --login-user sapphiresocialsa --output tejanasinmedia.csv
+
+Three competitors:
+   python instagram_scraper.py --users brand1 brand2 brand3 --login-user sapphiresocialsa --output competitors.csv
+
+Only 20 posts each (faster):
+   python instagram_scraper.py --users brand1 brand2 --login-user sapphiresocialsa --limit 20 --output quick.csv
+
+
+CSV COLUMNS
+-----------
+username, shortcode, url, date_utc, post_type, like_count, comment_count,
+view_count, engagement_rate, follower_count, caption
+
+- engagement_rate = (likes + comments) / followers. Multiply by 100 for %.
+- view_count is empty for photo posts (Instagram only gives views for videos/reels).
+- post_type = image, carousel, video, or reel.
